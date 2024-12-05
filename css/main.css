@@ -31,8 +31,6 @@ textarea{
     width: 65%;
     height: 300px;
     margin-right: 30px;
-    display: flex;
-    align-items: start;
 }
 .nameValueAdd{
     width: 65%;
@@ -55,4 +53,9 @@ input[type="button"]{
     padding: 0 10px;
     border-radius: 3px;
     border: 1px solid rgba(30, 30, 30, 0.68);
+    cursor: pointer;
+}
+input[type="button"]:hover{
+    background-color: rgb(30, 30, 30, 0.1);
+    transition: 0.3s;
 }
