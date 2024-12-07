@@ -12,19 +12,19 @@
     <title>Document</title>
 </head>
 <body>
-<form action="" name="f1">
+<form action="" name="container">
     <h3>Test</h3>
         <label for="nameValueAdd">Name/Value Pair</label>
-        <input class="nameValueAdd" type="text" name="name" id="nameValueAdd" value="Name=Value">
-        <input class="add" type="button" id="add" value="Add">
+        <input class="nameValueAdd" type="text" name="name" id="nameValueAdd" placeholder="Name=Value">
+        <input class="add" type="button" name="addButton" id="addButton" value="Add">
     <label for="form-name_list">Name/Value Pair List</label>
     <div class="form-name">
        <textarea name="text" id="form-name_list">
        </textarea>
-          <div class="name-bttn">
-              <input type="button" id="sortByNameBttn" value="Sort by Name">
-              <input class="sortByValueBttn" type="button" id="sortByValueBttn" value="Sort by Value">
-              <input type="button" id="deleteBttn" value="Delete">
+          <div class="buttons">
+              <input type="button" id="sortByNameButton" value="Sort by Name">
+              <input class="sortByValueButton" type="button" id="sortByValueButton" value="Sort by Value">
+              <input type="button" id="deleteButton" value="Delete">
           </div>
         <ul id="pairsList"></ul>
     </div>
