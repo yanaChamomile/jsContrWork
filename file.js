@@ -4,4 +4,5 @@ container.addEventListener('submit', (e) => {
     const name = container.name.value;
     let obj ={name}
     console.log(obj);
+
 });
