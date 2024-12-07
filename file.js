@@ -5,4 +5,3 @@ container.addEventListener('submit', (e) => {
     let obj ={name}
     console.log(obj);
 });
-
