@@ -1,80 +1,80 @@
-/*const container = document.forms.container;
 
-const textarea = document.getElementById('form-name_list');
-const addButton = container.addButton;
-addButton.addEventListener('click', (e) => {
-    const nameValue = container.name.value;
-    container.name.value = nameValue;
-    let person ={
-        name: nameValue}
-    console.log(person);
-    textarea.innerText = person.name;
-});
-// Функція для перевірки формату "Name=Value"
-function isValidPair(pair) {
-    const regex = /^[\p{L}\p{N}]+\s*=\s*[\p{L}\p{N}]+$/u;
-    return regex.test(pair);
-}
-
- */
-// Отримання посилань на елементи
-const inputField = document.getElementById("nameValueAdd");
+// Отримання елементів із HTML
+const nameValueAdd = document.getElementById("nameValueAdd");
 const addButton = document.getElementById("addButton");
 const textArea = document.getElementById("form-name_list");
 const sortByNameButton = document.getElementById("sortByNameButton");
 const sortByValueButton = document.getElementById("sortByValueButton");
 const deleteButton = document.getElementById("deleteButton");
 
-// Додавання нової пари до списку
-addButton.addEventListener("click", () => {
-    const input = inputField.value.trim();
 
-    // Перевірка формату пари "Name=Value"
-    const regex =  /^[\p{L}\p{N}]+\s*=\s*[\p{L}\p{N}]+$/u;
-    if (!regex.test(input)) {
-        alert("Invalid format! Please use 'Name=Value'.");
-        return;
+// Масив для зберігання пар Name=Value
+let nameValueList = [];
+
+// Перевірка на валідність
+function isValidNameValue(input) {
+    if (input.includes("=")) {
+        const parts = input.split("=");
+        const name = parts[0].trim();
+        const value = parts[1].trim();
+        if (name.length > 0 && value.length > 0) {
+            return true;
+        }
     }
-
-    // Додавання пари в текстову область
-    textArea.value += input + "\n";
-
-    // Очищення поля вводу
-    inputField.value = "";
-});
-
-// Видалення вибраних рядків
-deleteButton.addEventListener("click", () => {
-    // Отримання виділеного тексту
-    const selectedText = window.getSelection().toString().trim();
-    if (!selectedText) {
-        alert("Please select a row to delete.");
-        return;
+    return false;
+}
+// запис пари в список
+addButton.onclick = function () {
+    const input = nameValueAdd.value.trim();
+    if (isValidNameValue(input)) {
+        nameValueList.push(input);
+        updateTextArea();
+        nameValueAdd.value = ""; // Очищення поля вводу
+    } else {
+        alert("Incorrect format! Please use Name=Value.");
     }
-
-    // Оновлення текстової області без вибраного тексту
-    const rows = textArea.value.split("\n").filter(row => row.trim() !== selectedText);
-    textArea.value = rows.join("\n");
+};
+nameValueAdd.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        addButton.click(); // Клік на Enter
+    }
 });
 
-// Сортування за іменами
-sortByNameButton.addEventListener("click", () => {
-    const pairs = textArea.value.trim().split("\n").filter(pair => pair);
-    const sorted = pairs.sort((a, b) => {
-        const [aName] = a.split("=");
-        const [bName] = b.split("=");
-        return aName.localeCompare(bName);
+
+// Оновлення текстової області
+function updateTextArea() {
+    textArea.value = nameValueList.join("\n");
+}
+
+// Сортування за ім'ям
+sortByNameButton.onclick = function () {
+    nameValueList.sort(function (a, b) {
+        const nameA = a.split("=")[0].trim().toLowerCase();
+        const nameB = b.split("=")[0].trim().toLowerCase();
+        return nameA.localeCompare(nameB);
     });
-    textArea.value = sorted.join("\n");
-});
+    updateTextArea();
+};
 
-// Сортування за значеннями
-sortByValueButton.addEventListener("click", () => {
-    const pairs = textArea.value.trim().split("\n").filter(pair => pair);
-    const sorted = pairs.sort((a, b) => {
-        const [, aValue] = a.split("=");
-        const [, bValue] = b.split("=");
-        return aValue.localeCompare(bValue);
+// Сортування за значенням
+
+sortByValueButton.onclick = function () {
+    nameValueList.sort(function (a, b) {
+        const valueA = a.split("=")[1].trim().toLowerCase();
+        const valueB = b.split("=")[1].trim().toLowerCase();
+        return valueA.localeCompare(valueB);
     });
-    textArea.value = sorted.join("\n");
-});
+    updateTextArea();
+};
+
+// Видалення обраного тексту
+
+deleteButton.onclick = function () {
+    const selectedText = textArea.value.split("\n").filter(line => line.trim() !== "");
+    // Перевіряємо, чи є вибраний текст у nameValueList
+    nameValueList = nameValueList.filter(pair => {
+        return !selectedText.some(text => text.trim() === pair.trim());
+    });
+    updateTextArea();
+};
